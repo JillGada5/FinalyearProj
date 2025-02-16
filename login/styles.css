@@ -1,0 +1,85 @@
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('red.jpg'); /* Replace with your image URL */
+    background-size: cover; /* Cover the entire viewport */
+    background-position: center; /* Center the background image */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    color: #fff; /* White text color for better contrast */
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.5); /* White background with 70% opacity for transparency */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    width: 400px; /* Fixed width for the container */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+
+h1 {
+    text-align: center;
+    color: #dc3545; /* Red color for blood donation theme */
+}
+
+label {
+    display: block; /* Make labels block elements */
+    margin-bottom: 5px; /* Space between label and input */
+    color: black; /* Red color for labels */
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%; /* Set width to 100% to match the button */
+    padding: 10px; /* Padding for input fields */
+    margin: 10px 0; /* Margin for spacing */
+    border: 1px solid #ced4da; /* Light border color */
+    border-radius: 5px; /* Rounded corners */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.btn-field{
+    width:100%;
+    display: flex;
+    justify-content: space-between;
+}
+.btn-field button{
+    flex-basis:48%;
+    border-radius: 20px;
+
+}
+
+button {
+    width: 100%; /* Set width to 100% to match the input fields */
+    padding: 10px; /* Padding for buttons */
+    background-color: #dc3545; /* Red color for buttons */
+    color: white; /* Text color for buttons */
+    border: none; /* No border */
+    border-radius: 20px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 16px; /* Font size for buttons */
+    margin: 5px 0; /* Add margin to create space between buttons */
+}
+
+button:hover {
+    background-color: #c82333; /* Darker red on hover */
+}
+
+.link {
+    text-align: center; /* Center align the link buttons */
+    margin-top: 10px; /* Margin for spacing */
+}
+
+.link button {
+    background: none; /* No background for link buttons */
+    color: #dc3545; /* Red color for link buttons */
+    border: none; /* No border */
+    cursor: pointer; /* Pointer cursor on hover */
+    text-decoration: underline; /* Underline text */
+    margin: 5px 0; /* Add margin to create space between link buttons */
+}

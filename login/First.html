@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login and Sign Up</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to the CSS file -->
+</head>
+<body>
+
+<div id="loginContainer" class="container">
+    <h1>Login</h1>
+    <form id="loginForm">
+        <label for="loginEmail">Email ID</label>
+        <input type="email" id="loginEmail" placeholder="Email ID" required>
+        <label for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" placeholder="Password" required>
+        <div class="text"><a href="#">Login with OTP</a></div>
+        <div class="text"><a href="javascript:void(0);" onclick="toggleForms()" >Don't have an account? Register</a></div>
+        
+        
+        
+    </form>
+    
+    <button type="submit" class="slide-button">Login</button>
+    <button type="button" class="slide-button" onclick="adminLogin()">Admin Login</button>
+    
+</div>
+
+<div id="signupContainer" class="container" style="display: none;">
+    <h2>Sign Up</h2>
+    <form id="signupForm">
+        <label for="firstName">First Name</label>
+        <input type="text" id="firstName" placeholder="First Name" required>
+        <label for="lastName">Last Name</label>
+        <input type="text" id="lastName" placeholder="Last Name" required>
+        <label for="signupEmail">Email ID</label>
+        <input type="email" id="signupEmail" placeholder="Email ID" required>
+        <label for="signupPassword">Password</label>
+        <input type="password" id="signupPassword" placeholder="Password" required>
+        <button type="submit">Sign Up</button>
+    </form>
+    <button onclick="toggleForms()">Login</button>
+</div>
+
+<script>
+    function toggleForms() {
+        const loginContainer = document.getElementById('loginContainer');
+        const signupContainer = document.getElementById('signupContainer');
+        if (signupContainer.style.display === 'none') {
+            loginContainer.style.display = 'none';
+            signupContainer.style.display = 'block';
+        } else {
+            loginContainer.style.display = 'block';
+            signupContainer.style.display = 'none';
+        }
+    }
+
+    function adminLogin() {
+        alert('Admin login functionality not implemented.');
+    }
+
+    // Add event listeners for form submissions if needed
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        // Handle login logic here
+        alert('Login functionality not implemented.');
+    });
+
+    document.getElementById('signupForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        // Handle sign-up logic here
+        alert('Sign-up functionality not implemented.');
+    });
+</script>
+
+</body>
+</html>

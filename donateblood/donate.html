@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Donation Form</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Blood Donation Form</h2>
+    <form id="donationForm">
+        <label for="donorId">Donor ID:</label>
+        <input type="text" id="donorId" name="donorId" value="DNR001" readonly>
+
+        <label for="fullName">Full Name:</label>
+        <input type="text" id="fullName" name="fullName" required>
+
+        <div class="dob-blood-group">
+            <div class="dob-container">
+                <label for="dob">Date of Birth:</label>
+                <input type="date" id="dob" name="dob" required>
+            </div>
+            <div class="blood-group-container">
+                <label for="bloodGroup">Blood Group:</label>
+                <select id="bloodGroup" name="bloodGroup" required>
+                    <option value="" disabled selected>Select your blood group</option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                    <option value="A1+">A1+</option>
+                    <option value="A1-">A1-</option>
+                    <option value="A2+">A2+</option>
+                    <option value="A2-">A2-</option>
+                    <option value="A1B+">A1B+</option>
+                    <option value="A1B-">A1B-</option>
+                    <option value="A2B+">A2B+</option>
+                    <option value="A2B-">A2B-</option>
+                    <option value="Bombay Blood Group">Bombay Blood Group</option>
+                    <option value="INRA">INRA</option>
+                </select>
+            </div>
+        </div>
+
+        <label>Gender:</label>
+        <div class="gender-container">
+            <label><input type="radio" name="gender" value="male" required> Male</label>
+            <label><input type="radio" name="gender" value="female"> Female</label>
+            <label><input type="radio" name="gender" value="other"> Other</label>
+        </div>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="phone">Phone No:</label>
+        <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" title="Please enter a valid 10-digit phone number.">
+
+        <label for="currentLocation">Current Location:</label>
+        <select id="currentLocation" name="currentLocation" required>
+            <option value="" disabled selected>Select your current location</option>
+            <option value="Kalyan Junction (KYN)">Kalyan Junction (KYN)</option>
+            <option value="Thakurli (THK)">Thakurli (THK)</option>
+            <option value="Dombivli (DI)">Dombivli (DI)</option>
+            <option value="Kopar (KOPR)">Kopar (KOPR)</option>
+            <option value="Diva Junction (DIVA)">Diva Junction (DIVA)</option>
+            <option value="Mumbra (MBQ)">Mumbra (MBQ)</option>
+            <option value="Kalva (KLVA)">Kalva (KLVA)</option>
+            <option value="Thane (TNA)">Thane (TNA)</option>
+            <option value="Mulund (MLND)">Mulund (MLND)</option>
+            <option value="Nahur (NHU)">Nahur (NHU)</option>
+            <option value="Bhandup (BND)">Bhandup (BND)</option>
+            <option value="Kanjur Marg (KJMG)">Kanjur Marg (KJMG)</option>
+            <option value="Vikhroli (VK)">Vikhroli (VK)</option>
+            <option value="Ghatkopar (GC)">Ghatkopar (GC)</option>
+            <option value="Vidyavihar (VVH)">Vidyavihar (VVH)</option>
+            <option value="Kurla Junction (CLA)">Kurla Junction (CLA)</option>
+            <option value="Sion (SIN)">Sion (SIN)</option>
+            <option value="Matunga (MTN)">Matunga (MTN)</option>
+            <option value="Dadar (DR)">Dadar (DR)</option>
+            <option value="Parel (PR)">Parel (PR)</option>
+            <option value="Currey Road (CRD)">Currey Road (CRD)</option>
+            <option value="Chinchpokli (CHG)">Chinchpokli (CHG)</option>
+            <option value="Byculla (BY)">Byculla (BY)</option>
+            <option value="Sandhurst Road (SNRD)">Sandhurst Road (SNRD)</option>
+            <option value="Masjid (MSD)">Masjid (MSD)</option>
+            <option value="Chhatrapati Shivaji Maharaj Terminus (CSMT)">Chhatrapati Shivaji Maharaj Terminus (CSMT)</option>
+        </select>
+
+        <label for="availableLocation">Your Available Location:</label>
+        <div class="dropdown">
+            <button type="button" class="dropbtn">Select Locations</button>
+            <div class="dropdown-content">
+                <label><input type="checkbox" name="location" value="Kalyan Junction (KYN)"> Kalyan Junction (KYN)</label>
+                <label><input type="checkbox" name="location" value="Thakurli (THK)"> Thakurli (THK)</label>
+                <label><input type="checkbox" name="location" value="Dombivli (DI)"> Dombivli (DI)</label>
+                <label><input type="checkbox" name="location" value="Kopar (KOPR)"> Kopar (KOPR)</label>
+                <label><input type="checkbox" name="location" value="Diva Junction (DIVA)"> Diva Junction (DIVA)</label>
+                <label><input type="checkbox" name="location" value="Mumbra (MBQ)"> Mumbra (MBQ)</label>
+                <label><input type="checkbox" name="location" value="Kalva (KLVA)"> Kalva (KLVA)</label>
+                <label><input type="checkbox" name="location" value="Thane (TNA)"> Thane (TNA)</label>
+                <label><input type="checkbox" name="location" value="Mulund (MLND)"> Mulund (MLND)</label>
+                <label><input type="checkbox" name="location" value="Nahur (NHU)"> Nahur (NHU)</label>
+                <label><input type="checkbox" name="location" value="Bhandup (BND)"> Bhandup (BND)</label>
+                <label><input type="checkbox" name="location" value="Kanjur Marg (KJMG)"> Kanjur Marg (KJMG)</label>
+                <label><input type="checkbox" name="location" value="Vikhroli (VK)"> Vikhroli (VK)</label>
+                <label><input type="checkbox" name="location" value="Ghatkopar (GC)"> Ghatkopar (GC)</label>
+                <label><input type="checkbox" name="location" value="Vidyavihar (VVH)"> Vidyavihar (VVH)</label>
+                <label><input type="checkbox" name="location" value="Kurla Junction (CLA)"> Kurla Junction (CLA)</label>
+                <label><input type="checkbox" name="location" value="Sion (SIN)"> Sion (SIN)</label>
+                <label><input type="checkbox" name="location" value="Matunga (MTN)"> Matunga (MTN)</label>
+                <label><input type="checkbox" name="location" value="Dadar (DR)"> Dadar (DR)</label>
+                <label><input type="checkbox" name="location" value="Parel (PR)"> Parel (PR)</label>
+                <label><input type="checkbox" name="location" value="Currey Road (CRD)"> Currey Road (CRD)</label>
+                <label><input type="checkbox" name="location" value="Chinchpokli (CHG)"> Chinchpokli (CHG)</label>
+                <label><input type="checkbox" name="location" value="Byculla (BY)"> Byculla (BY)</label>
+                <label><input type="checkbox" name="location" value="Sandhurst Road (SNRD)"> Sandhurst Road (SNRD)</label>
+                <label><input type="checkbox" name="location" value="Masjid (MSD)"> Masjid (MSD)</label>
+                <label><input type="checkbox" name="location" value="Chhatrapati Shivaji Maharaj Terminus (CSMT)"> Chhatrapati Shivaji Maharaj Terminus (CSMT)</label>
+            </div>
+        </div>
+
+        <button type="submit" class="submit-button">Submit</button>
+    </form>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

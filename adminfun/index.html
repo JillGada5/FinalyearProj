@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+
+    <div class="sidebar">
+        <!-- Add Button with Dropdown -->
+        <div class="dropdown">
+            <button class="dropdown-btn" onclick="toggleDropdown('addDropdown')">Add &#9660;</button><br><br>
+            <div id="addDropdown" class="dropdown-content">
+                <button onclick="showForm('eventForm')">Add Event</button><br><br>
+                <button onclick="showForm('hospitalForm')">Add Hospital</button><br><br>
+                <button onclick="showForm('bloodBankForm')">Add Blood Bank</button>
+            </div>
+        </div>
+
+        <!-- View Button with Dropdown -->
+        <div class="dropdown">
+            <button class="dropdown-btn" onclick="toggleDropdown('viewDropdown')">View &#9660;</button><br><br>
+            <div id="viewDropdown" class="dropdown-content">
+                <button onclick="viewBloodRequests()">Blood Requests</button><br><br>
+                <button onclick="viewDonors()">Donor List</button><br><br>
+                <button onclick="viewRequestStatus()">Request Status</button><br><br>
+                <button onclick="viewEvents()">Events List</button><br><br>
+                <button onclick="viewHospitals()">Hospitals List</button><br><br>
+                <button onclick="viewBloodBanks()">Blood Banks List</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h1> <center>Admin Panel </center></h1>
+
+        <!-- Dynamic Content Section -->
+        <div id="dynamicContent" class="dynamic-content"></div>
+
+        <!-- Forms for adding new entities (Event, Hospital, Blood Bank) -->
+        <div id="eventForm" class="container" style="display: none;">
+            <h2><center>Add Event</center></h2>
+            <form id="eventFormSubmit">
+                <label for="eventName">Event Name:</label><br>
+                <input type="text" id="eventName" name="eventName" required><br>
+                <label for="eventDate">Event Date:</label><br>
+                <input type="date" id="eventDate" name="eventDate" required><br>
+                <label for="eventLocation">Event Location:</label>
+                <input type="text" id="eventLocation" name="eventLocation" required><br>
+                <label for="eventDescription">Description:</label>
+                <textarea id="eventDescription" name="eventDescription" rows="4" required></textarea><br>
+                <button type="submit">Submit Event</button>
+            </form>
+        </div>
+
+        <div id="hospitalForm" class="container" style="display: none;">
+            <h2><center>Add Hospital</center></h2>
+            <form id="hospitalFormSubmit">
+                <label for="hospitalName">Hospital Name:</label><br>
+                <input type="text" id="hospitalName" name="hospitalName" required><br>
+
+                <label for="hospitalContact">Contact Info:</label><br>
+                <input type="tel" id="hospitalContact" name="hospitalContact" pattern="^\d{10}$" placeholder="1234567890" required><br>
+
+                <label for="hospitalAddress">Address:</label><br>
+                <textarea id="hospitalAddress" name="hospitalAddress" rows="4" required></textarea><br>
+
+                <label for="hospitalLocation">Location:</label><br>
+                <input type="text" id="hospitalLocation" name="hospitalLocation" required><br>
+
+                <button type="submit">Submit Hospital</button>
+            </form>
+        </div>
+
+        <div id="bloodBankForm" class="container" style="display: none;">
+            <h2><center>Add Blood Bank</center></h2>
+            <form id="bloodBankFormSubmit">
+                <label for="bloodBankName">Blood Bank Name:</label><br>
+                <input type="text" id="bloodBankName" name="bloodBankName" required><br>
+                <label for="bloodBankContact">Contact Info:</label><br>
+                <input type="tel" id="bloodBankContact" name="bloodBankContact" pattern="^\d{10}$" placeholder="1234567890" required><br>
+                <label for="bloodBankAddress">Address:</label><br>
+                <textarea id="bloodBankAddress" name="bloodBankAddress" rows="4" required></textarea><br>
+                <label for="bloodBankLocation">Location:</label><br>
+                <input type="text" id="bloodBankLocation" name="bloodBankLocation" required><br>
+                <button type="submit">Submit Blood Bank</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
+index.html fun
