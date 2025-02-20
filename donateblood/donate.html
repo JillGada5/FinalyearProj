@@ -111,20 +111,24 @@ select {
 /* Button Styles */
 button[type="submit"] {
     padding: 10px;
-    background-color: #ff6666; /* Soft red for the button */
+    background-color:#b30000; /* Soft red for the button */
     color: white;
     border: none;
+    margin: 20px auto;
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.3s;
     margin-top: 20px;
-    box-shadow: inset 0 -2px 4px rgba(0, 0, 0, 0.2); /* Softer glossy effect */
+    box-shadow: inset 0 -2px 4px rgba(247, 56, 56, 0.2); /* Softer glossy effect */
 }
 
-button[type="submit"]:hover {
-    background-color: #f21212; /* Darker soft red on hover */
+
+.submit-container {
+    text-align: center; /* Centers inline elements like the button */
+    margin-top: 20px;
 }
+
 
 /* Align Date of Birth and Blood Group in one line */
 .dob-blood-group {
@@ -295,19 +299,25 @@ button[type="submit"]:hover {
             <option value="Chhatrapati Shivaji Maharaj Terminus (CSMT)">Chhatrapati Shivaji Maharaj Terminus (CSMT)</option>
         </select>
 
-        </div>
+        
 
+        <div class="submit-container">
+            
         <button type="submit" class="submit-button">Submit</button>
+        </div>
     </form>
     <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@3.1.0/dist/js/multi-select-tag.js"></script>
 </div>
 <script>
 
     new MultiSelectTag('availableLocation')  // id
-document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
     const nameInput = document.getElementById("fullName");
     const dobInput = document.getElementById("dob");
-    
+    const emailInput = document.getElementById("email");
+    const phoneInput = document.getElementById("phone");
+    const locationInput = document.getElementById("location");
+
     // Set min and max date for DOB (18 to 65 years old)
     const today = new Date();
     const minAge = new Date(today.getFullYear() - 65, today.getMonth(), today.getDate());
@@ -315,26 +325,76 @@ document.addEventListener("DOMContentLoaded", function() {
     dobInput.setAttribute("min", minAge.toISOString().split("T")[0]);
     dobInput.setAttribute("max", maxAge.toISOString().split("T")[0]);
 
-    nameInput.addEventListener("input", function() {
+    // **Name Validation (Immediate Alert & Auto-Correction)**
+    nameInput.addEventListener("input", function () {
         const nameError = document.getElementById("nameError");
-        const nameRegex = /^[A-Za-z ]{3,}$/;
+        const nameRegex = /^[A-Za-z ]+$/;
+
         if (!nameRegex.test(nameInput.value)) {
-            nameError.textContent = "Enter a valid full name (only letters, min 3 chars).";
+            alert("Only letters and spaces are allowed in the name.");
+            nameInput.value = nameInput.value.replace(/[^A-Za-z ]/g, ''); // Remove invalid characters
+        }
+
+        if (nameInput.value.length < 3) {
+            nameError.textContent = "Enter at least 3 characters.";
         } else {
             nameError.textContent = "";
         }
     });
 
-    document.getElementById("donationForm").addEventListener("submit", function(event) {
-        let isValid = true;
+    // **Email Validation (Immediate Alert & Auto-Correction)**
+    emailInput.addEventListener("input", function () {
+        const emailError = document.getElementById("emailError");
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com)$/;
 
-        // Name validation
+        if (!emailRegex.test(emailInput.value)) {
+            alert("Enter a valid email (only Gmail or Yahoo).");
+            emailError.textContent = "Enter a valid email (only Gmail or Yahoo).";
+        } else {
+            emailError.textContent = "";
+        }
+    });
+
+    // **Phone Number Validation (Immediate Alert & Auto-Correction)**
+    phoneInput.addEventListener("input", function () {
+        const phoneError = document.getElementById("phoneError");
+        phoneInput.value = phoneInput.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
+
+        if (phoneInput.value.length > 10) {
+            phoneInput.value = phoneInput.value.slice(0, 10); // Limit to 10 digits
+        }
+
+        if (!/^[0-9]{10}$/.test(phoneInput.value)) {
+            alert("Enter a valid 10-digit phone number.");
+            phoneError.textContent = "Enter a valid 10-digit phone number.";
+        } else {
+            phoneError.textContent = "";
+        }
+    });
+
+    // **Location Validation (Immediate Alert)**
+    locationInput.addEventListener("blur", function () {
+        const locationError = document.getElementById("locationError");
+        if (locationInput.value.trim() === "") {
+            alert("Please select a location.");
+            locationError.textContent = "Please select a location.";
+        } else {
+            locationError.textContent = "";
+        }
+    });
+
+    // **Form Validation on Submit**
+    document.getElementById("donationForm").addEventListener("submit", function (event) {
+        let isValid = true;
+        const nameRegex = /^[A-Za-z ]{3,}$/;
+
+        // **Name Validation**
         if (!nameRegex.test(nameInput.value)) {
             document.getElementById("nameError").textContent = "Enter a valid full name (only letters, min 3 chars).";
             isValid = false;
         }
 
-        // Date of Birth validation (Age 18-65)
+        // **Date of Birth Validation (Age 18-65)**
         const birthDate = new Date(dobInput.value);
         if (dobInput.value === "" || birthDate < minAge || birthDate > maxAge) {
             document.getElementById("dobError").textContent = "You must be between 18 and 65 years old.";
@@ -343,35 +403,24 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("dobError").textContent = "";
         }
 
-        // Other form validations (Blood Group, Gender, Email, Phone, Location)
+        // **Other Form Validations (Blood Group, Gender, Location)**
         const fields = [
             { id: "bloodGroup", errorId: "bloodError", message: "Please select your blood group." },
-            { id: "email", errorId: "emailError", regex: /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com)$/, message: "Enter a valid email (only Gmail or Yahoo)." },
-            { id: "phone", errorId: "phoneError", regex: /^[0-9]{10}$/, message: "Enter a valid 10-digit phone number." },
             { id: "location", errorId: "locationError", message: "Please select a location." }
         ];
-        
+
         fields.forEach(field => {
             const input = document.getElementById(field.id);
             const errorElement = document.getElementById(field.errorId);
-            if (field.regex) {
-                if (!field.regex.test(input.value)) {
-                    errorElement.textContent = field.message;
-                    isValid = false;
-                } else {
-                    errorElement.textContent = "";
-                }
+            if (input.value.trim() === "") {
+                errorElement.textContent = field.message;
+                isValid = false;
             } else {
-                if (input.value.trim() === "") {
-                    errorElement.textContent = field.message;
-                    isValid = false;
-                } else {
-                    errorElement.textContent = "";
-                }
+                errorElement.textContent = "";
             }
         });
 
-        // Gender validation
+        // **Gender Validation**
         const genderSelected = document.querySelector('input[name="gender"]:checked');
         if (!genderSelected) {
             document.getElementById("genderError").textContent = "Please select a gender.";
@@ -385,6 +434,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 });
+
 </script>
 </body>
 </html>
