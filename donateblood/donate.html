@@ -3,14 +3,298 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@3.1.0/dist/css/multi-select-tag.css">
     <title>Blood Donation Form</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+       /* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ffffff; /* Light background for contrast */
+    margin: 0;
+    padding: 20px;
+    background-size: cover;
+    background-position: center;
+}
+
+header {
+      background: linear-gradient(to right, #8B0000, #FF0000); /* Dark red to bright red gradient */
+      padding: 15px 0;
+      color: #fff;
+      display: flex;
+      justify-content: space-between; /* To space out logo and nav */
+      align-items: center; /* Center items vertically */
+      padding: 0 20px; /* Adjust horizontal padding for spacing */
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    }
+
+    header .logo img {
+      max-width: 150px;
+      height: auto;
+      animation: bounce 2s infinite alternate;
+    }
+
+    nav ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    nav ul li {
+      margin: 0 15px;
+    }
+
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 18px;
+      transition: color 0.3s;
+    }
+
+    nav ul li a:hover {
+      color: #FFD1D1; /* Light Pink hover color */
+    }
+
+
+.container {
+    max-width: 700px;
+    margin: auto;
+    background: linear-gradient(to bottom, #ffebeb, #ffb3b3); /* Softer blood-red gradient */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Lighter shadow */
+    border: 2px solid #ff9999; /* Light pinkish-red border */
+}
+
+/* Heading */
+h2 {
+    text-align: center;
+    color: #990000; /* Dark red for emphasis */
+    text-shadow: 1px 1px 2px #ffcccc; /* Softer shadow effect */
+}
+
+/* Form Styles */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Label Styles */
+label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #b30000; /* Softer red for labels */
+}
+
+/* Input Styles */
+input[type="text"],
+input[type="date"],
+input[type="email"],
+input[type="tel"],
+select {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ff6666;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: #ffe6e6; /* Light pink background */
+    color: #333;
+}
+
+/* Gender Radio Button Styles */
+.gender-container {
+    margin-bottom: 15px;
+}
+
+.gender-container label {
+    margin-right: 15px;
+    color: #990000;
+}
+
+/* Dropdown Styles */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropbtn {
+    padding: 10px;
+    border: 1px solid #ff6666;
+    border-radius: 4px;
+    background-color: #ffe6e6;
+    color: #990000;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    min-width: 160px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Checkbox Styles */
+.dropdown-content label {
+    display: block;
+    padding: 8px 12px;
+}
+
+/* Button Styles */
+button[type="submit"] {
+    padding: 10px;
+    background-color: #ff6666; /* Soft red for the button */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+    box-shadow: inset 0 -2px 4px rgba(0, 0, 0, 0.2); /* Softer glossy effect */
+}
+
+button[type="submit"]:hover {
+    background-color: #f21212; /* Darker soft red on hover */
+}
+
+/* Align Date of Birth and Blood Group in one line */
+.dob-blood-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.dob-container {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.blood-group-container {
+    flex: 1;
+}
+
+.gender-phone-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.gender-container {
+    flex: 1;
+}
+
+.phone-container {
+    flex: 1;
+    margin-left: 20px;
+}
+
+/* Responsive Styles */
+@media (max-width: 600px) {
+    .container {
+        padding: 15px;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input[type="email"],
+    input[type="tel"],
+    select,
+    button[type="submit"] {
+        font-size: 14px;
+    }
+}
+    /* Footer Styles */
+    footer {
+      background: #FF4D4D; /* Light Red Footer */
+      color: #fff;
+      text-align: center;
+      padding: 10px 0;
+      font-size: 14px;
+    }
+
+    /* Blood Drip Animation */
+    body::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 20px;
+      background: linear-gradient(to bottom, #e0291f, transparent); /* Light red drip effect */
+      box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+      animation: drip 3s infinite;
+    }
+
+    @keyframes drip {
+      0%, 100% {
+        height: 20px;
+      }
+      50% {
+        height: 40px;
+      }
+    }
+
+    @keyframes bounce {
+      0% {
+        transform: translateY(0);
+      }
+      100% {
+        transform: translateY(-10px);
+      }
+    }
+
+
+    .about-section h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+
+    .about-section h3 {
+      font-size: 24px;
+      margin-top: 20px;
+    }
+
+    .about-section ul {
+      list-style-type: none;
+      margin-left: 20px;
+    }
+
+    .about-section ul li {
+      margin-bottom: 10px;
+    }
+ 
+    </style>
 </head>
 <body>
 
+    <header>
+        <div class="logo">
+          <a href="index.html">
+            <img src="logo.png" alt="Bloodlife logo" width="200" height="140">
+          </a>
+        </div>        
+        <nav>
+          <ul>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#contact">Contact Us</a></li>
+            <li><a href="#videos">Videos</a></li>
+            <li><a href="#events">Events & Campaigns</a></li>
+            <li><a href="#faq">FAQs</a></li>
+          </ul>
+        </nav>
+      </header>
 <div class="container">
     <h2>Blood Donation Form</h2>
-    <form id="donationForm">
+    <form id="donationForm" action="" method="get">
         <label for="donorId">Donor ID:</label>
         <input type="text" id="donorId" name="donorId" value="DNR001" readonly>
 
@@ -93,42 +377,79 @@
         </select>
 
         <label for="availableLocation">Your Available Location:</label>
-        <div class="dropdown">
-            <button type="button" class="dropbtn">Select Locations</button>
-            <div class="dropdown-content">
-                <label><input type="checkbox" name="location" value="Kalyan Junction (KYN)"> Kalyan Junction (KYN)</label>
-                <label><input type="checkbox" name="location" value="Thakurli (THK)"> Thakurli (THK)</label>
-                <label><input type="checkbox" name="location" value="Dombivli (DI)"> Dombivli (DI)</label>
-                <label><input type="checkbox" name="location" value="Kopar (KOPR)"> Kopar (KOPR)</label>
-                <label><input type="checkbox" name="location" value="Diva Junction (DIVA)"> Diva Junction (DIVA)</label>
-                <label><input type="checkbox" name="location" value="Mumbra (MBQ)"> Mumbra (MBQ)</label>
-                <label><input type="checkbox" name="location" value="Kalva (KLVA)"> Kalva (KLVA)</label>
-                <label><input type="checkbox" name="location" value="Thane (TNA)"> Thane (TNA)</label>
-                <label><input type="checkbox" name="location" value="Mulund (MLND)"> Mulund (MLND)</label>
-                <label><input type="checkbox" name="location" value="Nahur (NHU)"> Nahur (NHU)</label>
-                <label><input type="checkbox" name="location" value="Bhandup (BND)"> Bhandup (BND)</label>
-                <label><input type="checkbox" name="location" value="Kanjur Marg (KJMG)"> Kanjur Marg (KJMG)</label>
-                <label><input type="checkbox" name="location" value="Vikhroli (VK)"> Vikhroli (VK)</label>
-                <label><input type="checkbox" name="location" value="Ghatkopar (GC)"> Ghatkopar (GC)</label>
-                <label><input type="checkbox" name="location" value="Vidyavihar (VVH)"> Vidyavihar (VVH)</label>
-                <label><input type="checkbox" name="location" value="Kurla Junction (CLA)"> Kurla Junction (CLA)</label>
-                <label><input type="checkbox" name="location" value="Sion (SIN)"> Sion (SIN)</label>
-                <label><input type="checkbox" name="location" value="Matunga (MTN)"> Matunga (MTN)</label>
-                <label><input type="checkbox" name="location" value="Dadar (DR)"> Dadar (DR)</label>
-                <label><input type="checkbox" name="location" value="Parel (PR)"> Parel (PR)</label>
-                <label><input type="checkbox" name="location" value="Currey Road (CRD)"> Currey Road (CRD)</label>
-                <label><input type="checkbox" name="location" value="Chinchpokli (CHG)"> Chinchpokli (CHG)</label>
-                <label><input type="checkbox" name="location" value="Byculla (BY)"> Byculla (BY)</label>
-                <label><input type="checkbox" name="location" value="Sandhurst Road (SNRD)"> Sandhurst Road (SNRD)</label>
-                <label><input type="checkbox" name="location" value="Masjid (MSD)"> Masjid (MSD)</label>
-                <label><input type="checkbox" name="location" value="Chhatrapati Shivaji Maharaj Terminus (CSMT)"> Chhatrapati Shivaji Maharaj Terminus (CSMT)</label>
-            </div>
+        <select id="availableLocation" name="availableLocation" required>
+            <option value="" disabled selected>Select your current location</option>
+            <option value="Kalyan Junction (KYN)">Kalyan Junction (KYN)</option>
+            <option value="Thakurli (THK)">Thakurli (THK)</option>
+            <option value="Dombivli (DI)">Dombivli (DI)</option>
+            <option value="Kopar (KOPR)">Kopar (KOPR)</option>
+            <option value="Diva Junction (DIVA)">Diva Junction (DIVA)</option>
+            <option value="Mumbra (MBQ)">Mumbra (MBQ)</option>
+            <option value="Kalva (KLVA)">Kalva (KLVA)</option>
+            <option value="Thane (TNA)">Thane (TNA)</option>
+            <option value="Mulund (MLND)">Mulund (MLND)</option>
+            <option value="Nahur (NHU)">Nahur (NHU)</option>
+            <option value="Bhandup (BND)">Bhandup (BND)</option>
+            <option value="Kanjur Marg (KJMG)">Kanjur Marg (KJMG)</option>
+            <option value="Vikhroli (VK)">Vikhroli (VK)</option>
+            <option value="Ghatkopar (GC)">Ghatkopar (GC)</option>
+            <option value="Vidyavihar (VVH)">Vidyavihar (VVH)</option>
+            <option value="Kurla Junction (CLA)">Kurla Junction (CLA)</option>
+            <option value="Sion (SIN)">Sion (SIN)</option>
+            <option value="Matunga (MTN)">Matunga (MTN)</option>
+            <option value="Dadar (DR)">Dadar (DR)</option>
+            <option value="Parel (PR)">Parel (PR)</option>
+            <option value="Currey Road (CRD)">Currey Road (CRD)</option>
+            <option value="Chinchpokli (CHG)">Chinchpokli (CHG)</option>
+            <option value="Byculla (BY)">Byculla (BY)</option>
+            <option value="Sandhurst Road (SNRD)">Sandhurst Road (SNRD)</option>
+            <option value="Masjid (MSD)">Masjid (MSD)</option>
+            <option value="Chhatrapati Shivaji Maharaj Terminus (CSMT)">Chhatrapati Shivaji Maharaj Terminus (CSMT)</option>
+        </select>
+
         </div>
 
         <button type="submit" class="submit-button">Submit</button>
     </form>
+    <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@3.1.0/dist/js/multi-select-tag.js"></script>
 </div>
 
-<script src="script.js"></script>
+<script>
+    
+    new MultiSelectTag('availableLocation')  // id
+
+    document.getElementById('donationForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const fullName = document.getElementById('fullName').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+
+    if (!fullName || !email || !phone) {
+        alert('Please fill in all required fields.');
+        return;
+    }
+
+    const phonePattern = /^[0-9]{10}$/;
+    if (!phonePattern.test(phone)) {
+        alert('Please enter a valid 10-digit phone number.');
+        return;
+    }
+
+    alert('Form submitted successfully!');
+    this.reset();
+});
+
+// Highlight selected checkboxes
+document.querySelectorAll('.dropdown-content input[type="checkbox"]').forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+        if (this.checked) {
+            this.parentElement.style.backgroundColor = '#f0f0f0'; // Highlight selected checkbox
+        } else {
+            this.parentElement.style.backgroundColor = ''; // Remove highlight
+        }
+    });
+});
+</script>
 </body>
 </html>
