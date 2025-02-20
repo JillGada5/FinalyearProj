@@ -194,7 +194,7 @@ button[type="submit"] {
     <div class="container">
         <h2>Request Blood</h2>
         <form action="#" method="POST">
-            <label for="requestId">Donor ID:</label>
+            <label for="requestId">Request ID:</label>
             <input type="text" id="requestId" name="requestId" value="REQ001" readonly>
 
             <label for="patientId">Donor ID:</label>
@@ -288,5 +288,70 @@ button[type="submit"] {
             <button type="submit">Search Donor</button>
         </form>
     </div>
+    <script>
+        let donorIdCounter = 1;
+        let patientIdCounter = 1;
+        
+        function generateIds() {
+            document.getElementById("requestId").value = "REQ" + donorIdCounter;
+            document.getElementById("patientId").value = "PAT" + patientIdCounter;
+        }
+        
+        function validateName() {
+            let nameField = document.getElementById("patient-name");
+            let nameError = document.getElementById("nameError");
+            nameField.value = nameField.value.replace(/[^A-Za-z ]/g, '');
+            if (!/^[A-Za-z ]+$/.test(nameField.value)) {
+                nameError.textContent = "Only letters are allowed";
+                return false;
+            }
+            nameError.textContent = "";
+            return true;
+        }
+        
+        function validatePhone() {
+    let phoneField = document.getElementById("phone");
+    let phoneError = document.getElementById("phoneError");
+
+    // Allow only numbers and limit to 10 digits
+    phoneField.value = phoneField.value.replace(/\D/g, '').slice(0, 10);
+
+    if (phoneField.value.length !== 10 || phoneField.value.startsWith("0")) {
+        phoneError.textContent = "Enter a valid 10-digit number (should not start with 0)";
+        return false;
+    }
+
+    phoneError.textContent = "";
+    return true;
+}
+
+
+        function validateAddress() {
+            let addressField = document.getElementById("address");
+            let addressError = document.getElementById("addressError");
+            if (addressField.value.trim() === "") {
+                addressError.textContent = "Address is required";
+                return false;
+            }
+            addressError.textContent = "";
+            return true;
+        }
+        
+        document.getElementById("patient-name").addEventListener("input", validateName);
+        document.getElementById("phone").addEventListener("input", validatePhone);
+        document.getElementById("address").addEventListener("input", validateAddress);
+        
+        document.getElementById("bloodRequestForm").addEventListener("submit", function(event) {
+            if (!validateName() || !validatePhone() || !validateAddress()) {
+                event.preventDefault();
+            } else {
+                donorIdCounter++;
+                patientIdCounter++;
+                generateIds();
+            }
+        });
+        
+        window.onload = generateIds;
+    </script>
 </body>
 </html>
