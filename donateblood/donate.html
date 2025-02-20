@@ -413,40 +413,87 @@ button[type="submit"]:hover {
     </form>
     <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@3.1.0/dist/js/multi-select-tag.js"></script>
 </div>
-
 <script>
-    
+
     new MultiSelectTag('availableLocation')  // id
+document.addEventListener("DOMContentLoaded", function() {
+    const nameInput = document.getElementById("fullName");
+    const dobInput = document.getElementById("dob");
+    
+    // Set min and max date for DOB (18 to 65 years old)
+    const today = new Date();
+    const minAge = new Date(today.getFullYear() - 65, today.getMonth(), today.getDate());
+    const maxAge = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+    dobInput.setAttribute("min", minAge.toISOString().split("T")[0]);
+    dobInput.setAttribute("max", maxAge.toISOString().split("T")[0]);
 
-    document.getElementById('donationForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-
-    const fullName = document.getElementById('fullName').value;
-    const email = document.getElementById('email').value;
-    const phone = document.getElementById('phone').value;
-
-    if (!fullName || !email || !phone) {
-        alert('Please fill in all required fields.');
-        return;
-    }
-
-    const phonePattern = /^[0-9]{10}$/;
-    if (!phonePattern.test(phone)) {
-        alert('Please enter a valid 10-digit phone number.');
-        return;
-    }
-
-    alert('Form submitted successfully!');
-    this.reset();
-});
-
-// Highlight selected checkboxes
-document.querySelectorAll('.dropdown-content input[type="checkbox"]').forEach(checkbox => {
-    checkbox.addEventListener('change', function() {
-        if (this.checked) {
-            this.parentElement.style.backgroundColor = '#f0f0f0'; // Highlight selected checkbox
+    nameInput.addEventListener("input", function() {
+        const nameError = document.getElementById("nameError");
+        const nameRegex = /^[A-Za-z ]{3,}$/;
+        if (!nameRegex.test(nameInput.value)) {
+            nameError.textContent = "Enter a valid full name (only letters, min 3 chars).";
         } else {
-            this.parentElement.style.backgroundColor = ''; // Remove highlight
+            nameError.textContent = "";
+        }
+    });
+
+    document.getElementById("donationForm").addEventListener("submit", function(event) {
+        let isValid = true;
+
+        // Name validation
+        if (!nameRegex.test(nameInput.value)) {
+            document.getElementById("nameError").textContent = "Enter a valid full name (only letters, min 3 chars).";
+            isValid = false;
+        }
+
+        // Date of Birth validation (Age 18-65)
+        const birthDate = new Date(dobInput.value);
+        if (dobInput.value === "" || birthDate < minAge || birthDate > maxAge) {
+            document.getElementById("dobError").textContent = "You must be between 18 and 65 years old.";
+            isValid = false;
+        } else {
+            document.getElementById("dobError").textContent = "";
+        }
+
+        // Other form validations (Blood Group, Gender, Email, Phone, Location)
+        const fields = [
+            { id: "bloodGroup", errorId: "bloodError", message: "Please select your blood group." },
+            { id: "email", errorId: "emailError", regex: /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com)$/, message: "Enter a valid email (only Gmail or Yahoo)." },
+            { id: "phone", errorId: "phoneError", regex: /^[0-9]{10}$/, message: "Enter a valid 10-digit phone number." },
+            { id: "location", errorId: "locationError", message: "Please select a location." }
+        ];
+        
+        fields.forEach(field => {
+            const input = document.getElementById(field.id);
+            const errorElement = document.getElementById(field.errorId);
+            if (field.regex) {
+                if (!field.regex.test(input.value)) {
+                    errorElement.textContent = field.message;
+                    isValid = false;
+                } else {
+                    errorElement.textContent = "";
+                }
+            } else {
+                if (input.value.trim() === "") {
+                    errorElement.textContent = field.message;
+                    isValid = false;
+                } else {
+                    errorElement.textContent = "";
+                }
+            }
+        });
+
+        // Gender validation
+        const genderSelected = document.querySelector('input[name="gender"]:checked');
+        if (!genderSelected) {
+            document.getElementById("genderError").textContent = "Please select a gender.";
+            isValid = false;
+        } else {
+            document.getElementById("genderError").textContent = "";
+        }
+
+        if (!isValid) {
+            event.preventDefault();
         }
     });
 });
