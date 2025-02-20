@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Blood Bank</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f2f7fc;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Contact Container */
+        section {
+            max-width: 900px;
+            margin: 100px auto 30px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: #d32f2f;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Contact Information Styling */
+        .contact-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-left: 5px solid #d32f2f;
+            border-radius: 5px;
+            transition: 0.3s ease-in-out;
+            cursor: pointer;
+        }
+
+        .contact-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .contact-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #d32f2f;
+        }
+
+        .contact-details {
+            font-size: 1.1rem;
+            color: #444;
+            margin-top: 5px;
+        }
+
+        /* Social Media Links */
+        .social-links {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .social-links a {
+            display: inline-block;
+            margin-right: 10px;
+            padding: 10px 15px;
+            font-size: 1rem;
+            color: white;
+            background: #d32f2f;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .social-links a:hover {
+            background: #b71c1c;
+        }
+
+        /* Sticky Footer */
+        footer {
+            background-color: #d32f2f;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+        .footer-text {
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            section {
+                padding: 15px;
+            }
+
+            h2 {
+                font-size: 1.75rem;
+            }
+
+            .contact-title {
+                font-size: 1.1rem;
+            }
+        }
+        .header {
+    position:relative;
+    max-width: 1600px;
+    min-width: 400px;
+    width: 100%;
+}
+
+.img {
+    width: 1400px;;
+    height: 500px;
+    object-fit: cover;
+    display:block;
+}
+.body-img {
+    width: 600px;;
+    height: 400px;
+    object-fit: cover;
+    display:block;
+}
+
+/* Overlay for Better Visibility */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+}
+
+header {
+    background: linear-gradient(to right, #8B0000, #FF0000); /* Lighter red gradient */
+    padding: 15px 0;
+    color: #fff;
+    display: flex;
+    justify-content: space-between; /* To space out logo and nav */
+    align-items: center; /* Center items vertically */
+    padding: 0 20px; /* Adjust horizontal padding for spacing */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+header .logo img {
+    max-width: 150px;
+    height: px;
+    /*animation: bounce 2s infinite alternate;*/
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: #fffefe;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s;
+}
+
+nav ul li a:hover {
+    color: #ffd1d1; /* Light hover color */
+}
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <a href="index.html">
+                <img src="logo3.jpg" alt="Bloodlife logo" width="200" height="140">
+            </a>
+        </div>        
+        <nav>
+            <ul>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#contact">Contact Us</a></li>
+                <li><a href="#videos">Videos</a></li>
+                <li><a href="#events">Events & Campaigns</a></li>
+                <li><a href="#faq">FAQs</a></li>
+            </ul>
+        </nav>
+    </header>
+    <section id="contact">
+        <h2>We Are Here to Assist You</h2>
+        <p>Feel free to reach out to us through any of the methods below:</p>
+
+        <div class="contact-item" onclick="copyToClipboard('0251-4853126')">
+            <div class="contact-title">📞 Phone</div>
+            <div class="contact-details">0251-4853126 (Click to copy)</div>
+        </div>
+
+        <div class="contact-item" onclick="copyToClipboard('bloodmanagement@healthcarefacility.com')">
+            <div class="contact-title">📧 Email</div>
+            <div class="contact-details">
+                <a href="mailto:bloodmanagement@healthcarefacility.com">bloodmanagement@healthcarefacility.com</a>
+                <br>Click to copy
+            </div>
+        </div>
+
+        <div class="contact-item">
+            <div class="contact-title">📍 Mailing Address</div>
+            <div class="contact-details">
+                Blood Bank Program<br>
+                BloodLife<br>
+                Gorai Street, Fateh Nagar, Noida, 456389
+            </div>
+        </div>
+
+        <div class="contact-item">
+            <div class="contact-title">🌐 Website</div>
+            <div class="contact-details">
+                <a href="http://www.healthcarefacility.com/bloodmanagement" target="_blank">www.healthcarefacility.com/bloodmanagement</a>
+            </div>
+        </div>
+
+        <div class="social-links">
+            <a href="#" target="_blank">Facebook</a>
+            <a href="#" target="_blank">Twitter</a>
+            <a href="#" target="_blank">LinkedIn</a>
+        </div>
+    </section>
+
+    <footer>
+        <p class="footer-text">&copy; 2025 BloodLife. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert(text + " copied to clipboard!");
+            }).catch(err => {
+                console.error('Error copying text: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>
