@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Locator</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
+    <style>
+        /* Google Font */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        /* Full-Page Background */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: url('map1.jpg') no-repeat center center;
+            background-size: cover;
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        /* Dark Overlay for better visibility */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 0;
+        }
+
+        /* Container */
+        .container {
+            position: relative;
+            width: 90%;
+            max-width: 600px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            color: #333;
+            z-index: 1;
+            text-align: center;
+        }
+
+        h1 {
+            color: #d9534f;
+            font-size: 2rem;
+        }
+
+        /* Search Box */
+        .search-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 70%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 2px solid #d9534f;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        button {
+            padding: 10px 15px;
+            margin-left: 10px;
+            font-size: 1rem;
+            color: white;
+            background: #d9534f;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #c9302c;
+        }
+
+        /* Results Display */
+        .results {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .result-item {
+            background: #fff;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 5px solid #d9534f;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .result-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #d9534f;
+        }
+
+        .result-address {
+            margin-top: 5px;
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .result-phone {
+            font-size: 1rem;
+            color: #333;
+            font-weight: bold;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .search-box {
+                flex-direction: column;
+            }
+
+            input {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <h1>🔍 Find Hospitals</h1>
+        <div class="search-box">
+            <input type="text" id="locationInput" placeholder="Enter Location" />
+            <button onclick="searchFacilities()">Search</button>
+        </div>
+        <div id="results" class="results"></div>
+    </div>
+    <script>
+        function searchFacilities() {
+            const location = document.getElementById("locationInput").value.trim().toLowerCase();
+            const resultsDiv = document.getElementById("results");
+            resultsDiv.innerHTML = '';
+
+            const data = {
+                "mumbai": [
+                    { name: "Kokilaben Hospital", address: "Andheri, Mumbai", phone: "+91 22 4269 6969" },
+                    { name: "Mumbai Blood Bank", address: "Mumbai Central, Mumbai", phone: "+91 123 456 7890" }
+                ],
+                "delhi": [
+                    { name: "AIIMS Hospital", address: "AIIMS Campus, Delhi", phone: "+91 567 890 1234" },
+                    { name: "Delhi Blood Center", address: "Connaught Place, Delhi", phone: "+91 678 901 2345" }
+                ]
+            };
+
+            if (data[location]) {
+                data[location].forEach(facility => {
+                    const resultItem = document.createElement("div");
+                    resultItem.classList.add('result-item');
+                    resultItem.innerHTML = `
+                        <div class="result-title">${facility.name}</div>
+                        <div class="result-address">${facility.address}</div>
+                        <div class="result-phone">📞 ${facility.phone}</div>
+                    `;
+                    resultsDiv.appendChild(resultItem);
+                });
+            } else {
+                resultsDiv.innerHTML = "<p>No facilities found for this location.</p>";
+            }
+        }
+    </script>
+</body>
+</html>
