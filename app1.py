@@ -1,5 +1,6 @@
 
-from flask import Flask, request, render_template, redirect, url_for, jsonify, session
+from flask import Flask, request, render_template, redirect, url_for, jsonify, session, flash
+
 import mysql.connector
 
 app = Flask(__name__)
@@ -37,9 +38,12 @@ def admin_login():
 # Route: Admin Panel (Protected)
 @app.route('/')
 def admin_panel():
-    if 'admin_logged_in' not in session or not session['admin_logged_in']:  # Fix: Proper session check
-        return redirect(url_for('admin_login'))
+    if 'admin_logged_in' not in session or not session['admin_logged_in']:  
+        flash("Unauthorized! Please log in.", "warning")
+        return redirect(url_for('admin_login'))  # Redirect to login if not logged in
+
     return render_template('admin_panel.html')
+
 
 # Route: Logout
 @app.route('/logout')
