@@ -115,7 +115,26 @@
                 font-size: 1.1rem;
             }
         }
-        .header {
+        /* General Styles */
+        body {
+    font-family: Arial, sans-serif;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background: #faf9f9; /* Light background color */
+    color: #333; /* Darker grey text for contrast */
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Header Styling */
+.header {
     position:relative;
     max-width: 1600px;
     min-width: 400px;
@@ -128,6 +147,13 @@
     object-fit: cover;
     display:block;
 }
+
+header .logo img {
+    max-width: 150px;
+    height: auto;
+    /*animation: bounce 2s infinite alternate;*/
+}
+
 .body-img {
     width: 600px;;
     height: 400px;
@@ -184,6 +210,29 @@ nav ul li a {
 nav ul li a:hover {
     color: #ffd1d1; /* Light hover color */
 }
+
+/* Blood Drip Animation */
+body::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    background: linear-gradient(to bottom, #e0291f, transparent); /* Light red drip effect */
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+    animation: drip 3s infinite;
+}
+
+@keyframes drip {
+    0%, 100% {
+        height: 20px;
+    }
+    50% {
+        height: 40px;
+    }
+}
+
 
     </style>
 </head>
