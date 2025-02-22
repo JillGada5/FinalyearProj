@@ -8,14 +8,23 @@
         /* Google Font */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-        /* General Styles */
-        body {
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #f8f9fa;
-            color: #333;
-        }
+         /* General Styles */
+         body {
+    font-family: Arial, sans-serif;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background: #faf9f9; /* Light background color */
+    color: #333; /* Darker grey text for contrast */
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
 
         .container {
             width: 90%;
@@ -109,43 +118,105 @@
         }
 
         /* Header Styling */
-        header {
-            background: linear-gradient(to right, #8B0000, #FF0000);
-            padding: 15px 0;
-            color: #fff;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
+.header {
+    position:relative;
+    max-width: 1600px;
+    min-width: 400px;
+    width: 100%;
+}
 
-        header .logo img {
-            max-width: 120px;
-        }
+.img {
+    width: 1400px;;
+    height: 500px;
+    object-fit: cover;
+    display:block;
+}
 
-        nav ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-        }
+header .logo img {
+    max-width: 150px;
+    height: auto;
+    /*animation: bounce 2s infinite alternate;*/
+}
 
-        nav ul li {
-            margin: 0 15px;
-        }
+.body-img {
+    width: 600px;;
+    height: 400px;
+    object-fit: cover;
+    display:block;
+}
 
-        nav ul li a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 18px;
-            transition: color 0.3s;
-        }
+/* Overlay for Better Visibility */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+}
 
-        nav ul li a:hover {
-            color: #ffd1d1;
-        }
+header {
+    background: linear-gradient(to right, #8B0000, #FF0000); /* Lighter red gradient */
+    padding: 15px 0;
+    color: #fff;
+    display: flex;
+    justify-content: space-between; /* To space out logo and nav */
+    align-items: center; /* Center items vertically */
+    padding: 0 20px; /* Adjust horizontal padding for spacing */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+header .logo img {
+    max-width: 150px;
+    height: px;
+    /*animation: bounce 2s infinite alternate;*/
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: #fffefe;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s;
+}
+
+nav ul li a:hover {
+    color: #ffd1d1; /* Light hover color */
+}
+
+/* Blood Drip Animation */
+body::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    background: linear-gradient(to bottom, #e0291f, transparent); /* Light red drip effect */
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+    animation: drip 3s infinite;
+}
+
+@keyframes drip {
+    0%, 100% {
+        height: 20px;
+    }
+    50% {
+        height: 40px;
+    }
+}
+
 
         /* Responsive Design */
         @media (max-width: 768px) {
