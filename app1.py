@@ -1,4 +1,4 @@
-
+# For admin Panel
 from flask import Flask, request, render_template, redirect, url_for, jsonify, session, flash
 
 import mysql.connector
