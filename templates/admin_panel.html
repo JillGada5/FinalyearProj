@@ -20,13 +20,19 @@
         }
 
         .sidebar {
-            width: 250px;
-            background-color: #2C3E50;
-            padding-top: 20px;
-            color: white;
-            position: fixed;
-            height: 100%;
-        }
+    width: 250px;
+    background-color: #2C3E50;
+    padding-top: 20px;
+    color: white;
+    position: fixed;
+    height: calc(100% - 80px); /* Adjust height */
+    top: 80px;  /* Move below the fixed header */
+    left: 0;
+    overflow-y: auto;
+}
+
+
+
 
         .sidebar button {
             background-color: #3498DB;
@@ -38,7 +44,13 @@
             border: none;
             cursor: pointer;
             display: block;
+            top: 60px;  /* Prevents it from overlapping header */
         }
+
+        .sidebar button:first-of-type {
+    margin-top: 20px; /* Adjusts only the first button */
+}
+
 
         .dropdown {
             display: none;
@@ -50,17 +62,23 @@
         }
 
         .main-content {
-            margin-left: 270px;
-            padding: 20px;
-            width: calc(100% - 270px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+    margin-left: 150px; /* Space for sidebar */
+    margin-top: 100px; /* Ensure content starts below header */
+    padding: 20px;
+    width: calc(100% - 270px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 100px); /* Full height minus header */
+}
+
+
+
+
 
         .container {
             background-color: white;
-            padding: 40px;
+            padding: 30px;
             border-radius: 10px;
             box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
             width: 70vw;
@@ -115,10 +133,115 @@
         form button:hover {
             background-color: #2980B9;
         }
+
+        /* Header Styling */
+.header {
+    position:relative;
+    max-width: 1600px;
+    min-width: 400px;
+    width: 100%;
+}
+
+.img {
+    width: 1400px;;
+    height: 500px;
+    object-fit: cover;
+    display:block;
+}
+
+header {
+    background: linear-gradient(to right, #8B0000, #FF0000); /* Red gradient */
+    padding: 10px 20px; 
+    color: #fff;
+    display: flex;
+    justify-content: center; /* Space between logo & nav */
+    align-items: center;
+    height: 100px; /* Fixed height */
+    width: 100vw; /* Make header cover full screen width */
+    position: fixed; /* Keep it at the top */
+    top: 0;
+    left: 0;
+    z-index: 1000; /* Ensure it stays above other elements */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+header .logo img {
+    position: absolute;
+    left: 20px; /* Keeps the logo on the left */
+    top: 10%;
+    
+}
+
+
+header .logo img {
+    max-width: 150px;
+    height: px;
+    /*animation: bounce 2s infinite alternate;*/
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: #fffefe;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s;
+}
+
+nav ul li a:hover {
+    color: #ffd1d1; /* Light hover color */
+}
+
+.admin-heading {
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    color: white;
+    background-color: #8B0000; /* Match header background */
+    padding: 5px 20px; /* Reduce padding */
+    margin: 0;
+    width: 100%;
+    position: relative; /* Ensures it stays below the header */
+    margin-top: 0px; /* Ensures it's below the header */
+}
+
+
+.heading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 90px; /* Adjust this value to move heading below header */
+}
+
+
     </style>
 </head>
 <body>
 
+    <header>
+        <div class="logo">
+            <a href="{{ url_for('admin_panel') }}"> <!-- Link to Admin Panel -->
+                <img src="logo3.jpg"  width="120" height="80">
+
+            </a>
+        </div> 
+        <h1>Admin Panel</h1>      
+    </header>
+
+    <h1 class="admin-heading">Admin Panel</h1>
+    
+  
     <div class="sidebar">
         <button onclick="toggleDropdown('addDropdown')">Add &#9660;</button><br>
         <div id="addDropdown" class="dropdown">
@@ -139,6 +262,8 @@
 
     <div class="main-content">
         <div id="dynamicContent" class="container"></div>
+    </div>
+        
     </div>
 
     <script>
