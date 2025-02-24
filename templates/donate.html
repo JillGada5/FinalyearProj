@@ -183,12 +183,13 @@ button[type="submit"] {
 </head>
 <body>
 
+
     
 <div class="container">
     <h2>Blood Donation Form</h2>
-    <form id="donationForm" action="" method="get">
+    <form id="donationForm" action="/submit" method="post">
         <label for="donorId">Donor ID:</label>
-        <input type="text" id="donorId" name="donorId" value="1" readonly> <!-- Initial Donor ID -->
+        <input type="text" id="donorId" name="donorId" value="{{ donor_id }}"  readonly> <!-- Initial Donor ID -->
 
         <label for="fullName">Full Name:</label>
         <input type="text" id="fullName" name="fullName" required>
@@ -269,7 +270,7 @@ button[type="submit"] {
         </select>
 
         <label for="availableLocation">Your Available Location:</label>
-        <select id="availableLocation" name="availableLocation" required>
+        <select id="availableLocation" name="availableLocation" multiple required>
             <option value="" disabled selected>Select your current location</option>
             <option value="Kalyan Junction (KYN)">Kalyan Junction (KYN)</option>
             <option value="Thakurli (THK)">Thakurli (THK)</option>
@@ -311,8 +312,11 @@ button[type="submit"] {
 <script>
 
     new MultiSelectTag('availableLocation')  // id
-    let donorIdCounter = 1; // Initialize the donor ID counter
-    document.addEventListener("DOMContentLoaded", function () {
+    let donorIdCounter = localStorage.getItem("donorIdCounter") || 1; // Start from 1000
+    const donorIdInput = document.getElementById("donorId");
+
+    // Display initial Donor ID
+    donorIdInput.value = `${donorIdCounter}`;
     const nameInput = document.getElementById("fullName");
     const dobInput = document.getElementById("dob");
     const emailInput = document.getElementById("email");
@@ -343,36 +347,34 @@ button[type="submit"] {
         }
     });
 
-    // **Email Validation (Immediate Alert & Auto-Correction)**
-    emailInput.addEventListener("input", function () {
-        const emailError = document.getElementById("emailError");
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com)$/;
+// **Email Validation (On Blur)**
+emailInput.addEventListener("blur", function () {
+    const emailError = document.getElementById("emailError");
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com)$/;
 
-        if (!emailRegex.test(emailInput.value)) {
-            alert("Enter a valid email (only Gmail or Yahoo).");
-            emailError.textContent = "Enter a valid email (only Gmail or Yahoo).";
-        } else {
-            emailError.textContent = "";
-        }
-    });
+    if (emailInput.value.trim() === "") {
+        emailError.textContent = "Email cannot be empty.";
+    } else if (!emailRegex.test(emailInput.value)) {
+        emailError.textContent = "Enter a valid email (only Gmail or Yahoo).";
+    } else {
+        emailError.textContent = ""; // Clear error message if valid
+    }
+});
 
-    // **Phone Number Validation (Immediate Alert & Auto-Correction)**
-    phoneInput.addEventListener("input", function () {
-        const phoneError = document.getElementById("phoneError");
-        phoneInput.value = phoneInput.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
+// **Phone Number Validation (On Blur)**
+phoneInput.addEventListener("blur", function () {
+    const phoneError = document.getElementById("phoneError");
+    phoneInput.value = phoneInput.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
 
-        if (phoneInput.value.length > 10) {
-            phoneInput.value = phoneInput.value.slice(0, 10); // Limit to 10 digits
-        }
-
-        if (!/^[0-9]{10}$/.test(phoneInput.value)) {
-            alert("Enter a valid 10-digit phone number.");
-            phoneError.textContent = "Enter a valid 10-digit phone number.";
-        } else {
-            phoneError.textContent = "";
-        }
-    });
-
+    if (phoneInput.value.length < 10) {
+        phoneError.textContent = "Enter a valid 10-digit phone number.";
+    } else if (phoneInput.value.length > 10) {
+        phoneInput.value = phoneInput.value.slice(0, 10); // Limit to 10 digits
+        phoneError.textContent = "Phone number should be exactly 10 digits.";
+    } else {
+        phoneError.textContent = ""; // Clear error message if valid
+    }
+});
     // **Location Validation (Immediate Alert)**
     locationInput.addEventListener("blur", function () {
         const locationError = document.getElementById("locationError");
@@ -388,6 +390,30 @@ button[type="submit"] {
     document.getElementById("donationForm").addEventListener("submit", function (event) {
         let isValid = true;
         const nameRegex = /^[A-Za-z ]{3,}$/;
+
+        document.getElementById("donationForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const formData = {
+        fullName: document.getElementById("fullName").value,
+        dob: document.getElementById("dob").value,
+        bloodGroup: document.getElementById("bloodGroup").value,
+        gender: document.querySelector('input[name="gender"]:checked').value,
+        email: document.getElementById("email").value,
+        phone: document.getElementById("phone").value,
+        currentLocation: document.getElementById("currentLocation").value,
+        availableLocation: document.getElementById("availableLocation").value
+    };
+
+    fetch("/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ formData})
+})
+.then(response => response.json())
+.then(data => console.log(data));
+
+});
 
         // **Name Validation**
         if (!nameRegex.test(nameInput.value)) {
@@ -442,13 +468,19 @@ button[type="submit"] {
                 // Optionally, reset the form
                 document.getElementById("donationForm").reset();
                 donorIdInput.value = donorIdCounter; // Set the new Donor ID
+                donorIdCounter++;
+                localStorage.setItem("donorIdCounter", donorIdCounter); // Store the updated counter
+
+                // Update the Donor ID field
+                donorIdInput.value = `DON-${donorIdCounter}`;
                 event.preventDefault(); // Prevent actual form submission for demo purposes
             } else {
                 event.preventDefault(); // Prevent form submission if validation fails
             }
 
     });
-});
+
+
 
 </script>
 </body>
