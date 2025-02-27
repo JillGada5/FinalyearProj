@@ -99,5 +99,25 @@ def add_event():
     db.commit()
     return jsonify({"message": "Event added successfully!"})
 
+@app.route('/get_hospitals', methods=['GET'])
+def get_hospitals():
+    cursor.execute("SELECT name, contact, address, location FROM hospitals")
+    hospitals = cursor.fetchall()
+    return jsonify(hospitals)
+
+@app.route('/get_bloodbanks', methods=['GET'])
+def get_bloodbanks():
+    cursor.execute("SELECT name, contact, address, location FROM blood_banks")
+    blood_banks = cursor.fetchall()
+    return jsonify(blood_banks)
+
+@app.route('/get_events', methods=['GET'])
+def get_events():
+    cursor.execute("SELECT name, event_date, location, description FROM events")
+    events = cursor.fetchall()
+    return jsonify(events)
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
