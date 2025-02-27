@@ -10,21 +10,26 @@ app.config['MYSQL_PASSWORD'] = 'root'
 app.config['MYSQL_DB'] = 'bloodlife'
 app.secret_key = 'your_secret_key'
 
-# Simulated donor ID for demonstration purposes
-donor_id_counter = 0
-
 # Initialize MySQL
 mysql = MySQL(app)
 
+def get_current_max_donor_id():
+    """Retrieve the current maximum donor_id from the database."""
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT COALESCE(MAX(donor_id), 0) FROM donors")  # Use COALESCE to handle empty table
+    max_id = cursor.fetchone()[0]
+    cursor.close()
+    return max_id
+
 @app.route('/')
 def index():
-    # Get the donor_id from the query parameters
-    donor_id = request.args.get('donor_id', default='1')  # Get the donor ID from the query parameters
+    # Get the current maximum donor_id and increment it
+    current_max_id = get_current_max_donor_id()
+    donor_id = current_max_id + 1  # Increment the donor_id
     return render_template('index.html', donor_id=donor_id)  # Render your HTML form
 
 @app.route('/submit', methods=['POST'])
 def submit():
-    
     if request.method == 'POST':
         # Get form data
         full_name = request.form['fullName']
@@ -38,7 +43,6 @@ def submit():
         available_locations = request.form.getlist('availableLocation')  # Ensure this line is correct
         # Join the list into a single string, separated by commas (or any other delimiter)
         available_location = ', '.join(available_locations)
-     
 
         # Insert data into MySQL database
         cursor = mysql.connection.cursor()
@@ -48,9 +52,6 @@ def submit():
         mysql.connection.commit()
         donor_id = cursor.lastrowid
         cursor.close()
-
-        
-        
 
         # Redirect to the index route with the donor_id as a query parameter
         return redirect(url_for('index', donor_id=donor_id))  # Pass donor_id to the index route

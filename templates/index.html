@@ -188,8 +188,8 @@ button[type="submit"] {
 <div class="container">
     <h2>Blood Donation Form</h2>
     <form id="donationForm" action="/submit" method="post">
-        <label for="donorId">Donor ID:</label>
-        <input type="text" id="donorId" name="donorId" value="{{ donor_id }}"  readonly> <!-- Initial Donor ID -->
+        <label for="donor_id">Donor ID:</label>
+        <input type="text" id="donor_id" name="donor_id" value="{{ donor_id }}"  readonly> <!-- Initial Donor ID -->
 
         <label for="fullName">Full Name:</label>
         <input type="text" id="fullName" name="fullName" required>
@@ -234,6 +234,7 @@ button[type="submit"] {
 
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required>
+       
 
         <label for="phone">Phone No:</label>
         <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" title="Please enter a valid 10-digit phone number.">
@@ -309,19 +310,15 @@ button[type="submit"] {
     </form>
     <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@3.1.0/dist/js/multi-select-tag.js"></script>
 </div>
+<script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@3.1.0/dist/js/multi-select-tag.js"></script>
 <script>
+    new MultiSelectTag('availableLocation');  // Initialize multi-select
 
-    new MultiSelectTag('availableLocation')  // id
-    let donorIdCounter = localStorage.getItem("donorIdCounter") || 1; // Start from 1000
-    const donorIdInput = document.getElementById("donorId");
-
-    // Display initial Donor ID
-    donorIdInput.value = `${donorIdCounter}`;
+    const donorIdInput = document.getElementById("donor_id");
     const nameInput = document.getElementById("fullName");
     const dobInput = document.getElementById("dob");
     const emailInput = document.getElementById("email");
     const phoneInput = document.getElementById("phone");
-    const locationInput = document.getElementById("location");
 
     // Set min and max date for DOB (18 to 65 years old)
     const today = new Date();
@@ -330,158 +327,45 @@ button[type="submit"] {
     dobInput.setAttribute("min", minAge.toISOString().split("T")[0]);
     dobInput.setAttribute("max", maxAge.toISOString().split("T")[0]);
 
-    // **Name Validation (Immediate Alert & Auto-Correction)**
-    nameInput.addEventListener("input", function () {
-        const nameError = document.getElementById("nameError");
-        const nameRegex = /^[A-Za-z ]+$/;
-
-        if (!nameRegex.test(nameInput.value)) {
-            alert("Only letters and spaces are allowed in the name.");
-            nameInput.value = nameInput.value.replace(/[^A-Za-z ]/g, ''); // Remove invalid characters
-        }
-
-        if (nameInput.value.length < 3) {
-            nameError.textContent = "Enter at least 3 characters.";
-        } else {
-            nameError.textContent = "";
-        }
-    });
-
-// **Email Validation (On Blur)**
-emailInput.addEventListener("blur", function () {
-    const emailError = document.getElementById("emailError");
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com)$/;
-
-    if (emailInput.value.trim() === "") {
-        emailError.textContent = "Email cannot be empty.";
-    } else if (!emailRegex.test(emailInput.value)) {
-        emailError.textContent = "Enter a valid email (only Gmail or Yahoo).";
-    } else {
-        emailError.textContent = ""; // Clear error message if valid
+    function isValidEmail(email) {
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;  // Ensures @ and at least one dot
+        return emailPattern.test(email);
     }
-});
 
-// **Phone Number Validation (On Blur)**
-phoneInput.addEventListener("blur", function () {
-    const phoneError = document.getElementById("phoneError");
-    phoneInput.value = phoneInput.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
-
-    if (phoneInput.value.length < 10) {
-        phoneError.textContent = "Enter a valid 10-digit phone number.";
-    } else if (phoneInput.value.length > 10) {
-        phoneInput.value = phoneInput.value.slice(0, 10); // Limit to 10 digits
-        phoneError.textContent = "Phone number should be exactly 10 digits.";
-    } else {
-        phoneError.textContent = ""; // Clear error message if valid
-    }
-});
-    // **Location Validation (Immediate Alert)**
-    locationInput.addEventListener("blur", function () {
-        const locationError = document.getElementById("locationError");
-        if (locationInput.value.trim() === "") {
-            alert("Please select a location.");
-            locationError.textContent = "Please select a location.";
-        } else {
-            locationError.textContent = "";
-        }
-    });
-
-    // **Form Validation on Submit**
+    // Form Validation on Submit
     document.getElementById("donationForm").addEventListener("submit", function (event) {
         let isValid = true;
         const nameRegex = /^[A-Za-z ]{3,}$/;
 
-        document.getElementById("donationForm").addEventListener("submit", function(event) {
-    event.preventDefault();
-
-    const formData = {
-        fullName: document.getElementById("fullName").value,
-        dob: document.getElementById("dob").value,
-        bloodGroup: document.getElementById("bloodGroup").value,
-        gender: document.querySelector('input[name="gender"]:checked').value,
-        email: document.getElementById("email").value,
-        phone: document.getElementById("phone").value,
-        currentLocation: document.getElementById("currentLocation").value,
-        availableLocation: document.getElementById("availableLocation").value
-    };
-
-    fetch("/", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ formData})
-})
-.then(response => response.json())
-.then(data => console.log(data));
-
-});
-
-        // **Name Validation**
+        // Name Validation
         if (!nameRegex.test(nameInput.value)) {
-            document.getElementById("nameError").textContent = "Enter a valid full name (only letters, min 3 chars).";
+            alert("Enter a valid full name (only letters, min 3 chars).");
             isValid = false;
         }
 
-        // **Date of Birth Validation (Age 18-65)**
+        // Date of Birth Validation (Age 18-65)
         const birthDate = new Date(dobInput.value);
         if (dobInput.value === "" || birthDate < minAge || birthDate > maxAge) {
-            document.getElementById("dobError").textContent = "You must be between 18 and 65 years old.";
+            alert("You must be between 18 and 65 years old.");
             isValid = false;
-        } else {
-            document.getElementById("dobError").textContent = "";
         }
 
-        // **Other Form Validations (Blood Group, Gender, Location)**
-        const fields = [
-            { id: "bloodGroup", errorId: "bloodError", message: "Please select your blood group." },
-            { id: "location", errorId: "locationError", message: "Please select a location." }
-        ];
-
-        fields.forEach(field => {
-            const input = document.getElementById(field.id);
-            const errorElement = document.getElementById(field.errorId);
-            if (input.value.trim() === "") {
-                errorElement.textContent = field.message;
-                isValid = false;
-            } else {
-                errorElement.textContent = "";
-            }
-        });
-
-        // **Gender Validation**
-        const genderSelected = document.querySelector('input[name="gender"]:checked');
-        if (!genderSelected) {
-            document.getElementById("genderError").textContent = "Please select a gender.";
+        // Other Form Validations (Blood Group, Gender, Location)
+        const bloodGroup = document.getElementById("bloodGroup").value;
+        if (bloodGroup === "") {
+            alert("Please select your blood group.");
             isValid = false;
-        } else {
-            document.getElementById("genderError").textContent = "";
         }
-
+        
+        if (!isValidEmail(emailInput.value)) {
+            alert("Enter a valid email address.");
+            isValid = false;
+        }
+        
         if (!isValid) {
-            event.preventDefault();
+            event.preventDefault(); // Prevent form submission if validation fails
         }
-
-        if (isValid) {
-                // Increment the donor ID and update the input field
-                donorIdCounter++;
-                donorIdInput.value = donorIdCounter; // Update the Donor ID
-                alert("Form submitted successfully! Donor ID: " + (donorIdCounter - 1)); // Show the previous ID
-                // Optionally, reset the form
-                document.getElementById("donationForm").reset();
-                donorIdInput.value = donorIdCounter; // Set the new Donor ID
-                donorIdCounter++;
-                localStorage.setItem("donorIdCounter", donorIdCounter); // Store the updated counter
-
-                // Update the Donor ID field
-                donorIdInput.value = `DON-${donorIdCounter}`;
-                event.preventDefault(); // Prevent actual form submission for demo purposes
-            } else {
-                event.preventDefault(); // Prevent form submission if validation fails
-            }
-
     });
-
-
-
 </script>
 </body>
 </html>
