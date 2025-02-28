@@ -33,6 +33,7 @@ def submit():
     if request.method == 'POST':
         # Get form data
         patient_name = request.form['patient_name']
+        email = request.form['email']
         phone = request.form['phone']
         blood_group = request.form['bloodgroup']
         quantity = request.form['quantity']
@@ -40,9 +41,9 @@ def submit():
         address = request.form['address']
 
         cursor = mysql.connection.cursor()
-        cursor.execute('''INSERT INTO request (patient_name, phone, blood_group, quantity, location, address) 
-                  VALUES (%s, %s, %s, %s, %s, %s)''', 
-               (patient_name, phone, blood_group, quantity, location, address))
+        cursor.execute('''INSERT INTO request (patient_name,email, phone, blood_group, quantity, location, address) 
+                  VALUES (%s,%s,%s, %s, %s, %s, %s)''', 
+               (patient_name,email, phone, blood_group, quantity, location, address))
         mysql.connection.commit()
         request_id = cursor.lastrowid
         cursor.close()
