@@ -197,6 +197,11 @@ button[type="submit"] {
             <label for="request_id">Request ID:</label>
             <input type="text" id="request_id" name="request_id" value="{{request_id}}" readonly>
 
+<<<<<<< HEAD
+=======
+            
+
+>>>>>>> b8e71a757bda904fa6f71208ab73f136cd5c7521
             <label for="patient_name">Patient Name</label>
             <input type="text" id="patient_name" name="patient_name" placeholder="Enter patient's name" required>
 
@@ -250,6 +255,8 @@ button[type="submit"] {
                     </select>
                 </div>
             </div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
 
 
             <label for="location">Location</label>
@@ -292,6 +299,12 @@ button[type="submit"] {
     </div>
     <script>
        const requestId = document.getElementById("request_id");
+       const emailInput = document.getElementById("email");
+
+       function isValidEmail(email) {
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;  // Ensures @ and at least one dot
+        return emailPattern.test(email);
+    }
         
         function validateName() {
             let nameField = document.getElementById("patient_name");
@@ -379,6 +392,10 @@ document.getElementById("bloodRequestForm").addEventListener("submit", function(
                 generateIds();
             }
         });
+        if (!isValidEmail(emailInput.value)) {
+            alert("Enter a valid email address.");
+            isValid = false;
+        }
         
         window.onload = generateIds;
     </script>
