@@ -197,10 +197,13 @@ button[type="submit"] {
             <label for="request_id">Request ID:</label>
             <input type="text" id="request_id" name="request_id" value="{{request_id}}" readonly>
 
-            
-
             <label for="patient_name">Patient Name</label>
             <input type="text" id="patient_name" name="patient_name" placeholder="Enter patient's name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            <small id="emailError" style="color: red;"></small>
+
 
             <label for="phone">Phone No:</label>
             <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" title="Please enter a valid 10-digit phone number.">
@@ -247,10 +250,7 @@ button[type="submit"] {
                     </select>
                 </div>
             </div>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-
-
+            
             <label for="location">Location</label>
             <select id="location" name="location" required>
                 <option value="">Select Location</option>
@@ -309,6 +309,35 @@ button[type="submit"] {
             nameError.textContent = "";
             return true;
         }
+
+        function validateEmail() {
+    let emailField = document.getElementById("email");
+    let emailError = document.getElementById("emailError");
+    let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if (!emailPattern.test(emailField.value)) {
+        emailError.textContent = "Enter a valid email address (e.g., name@example.com or name@example.co.in).";
+        return false;
+    }
+
+    emailError.textContent = "";
+    return true;
+}
+
+    document.getElementById("email").addEventListener("input", validateEmail);
+    // Prevent form submission if email is invalid
+document.getElementById("bloodRequestForm").addEventListener("submit", function(event) {
+    if (!validateEmail()) {
+        event.preventDefault(); // Stops form submission
+        alert("Please enter a valid email address before submitting the form.");
+    }
+});
+
+    document.getElementById("bloodRequestForm").addEventListener("submit", function(event) {
+        if (!validateName() || !validatePhone() || !validateAddress() || !validateEmail()) {
+            event.preventDefault();
+        }
+    });
         
         function validatePhone() {
           let phoneField = document.getElementById("phone");
@@ -355,10 +384,6 @@ button[type="submit"] {
                 generateIds();
             }
         });
-        if (!isValidEmail(emailInput.value)) {
-            alert("Enter a valid email address.");
-            isValid = false;
-        }
         
         window.onload = generateIds;
     </script>
