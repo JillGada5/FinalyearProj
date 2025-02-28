@@ -1,10 +1,7 @@
-# For admin Panel
-from flask import Flask, request, render_template, redirect, url_for, jsonify, session, flash
-
+from flask import Flask, request, render_template, redirect, url_for, jsonify
 import mysql.connector
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Required for session management
 
 # Database connection
 db = mysql.connector.connect(
@@ -16,47 +13,12 @@ db = mysql.connector.connect(
 
 cursor = db.cursor()
 
-# Admin credentials
-ADMIN_USERNAME = "admin"
-ADMIN_PASSWORD = "password123"
-
-# Route: Admin Login Page
-@app.route('/admin_login', methods=['GET', 'POST'])
-def admin_login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-
-        if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
-            session['admin_logged_in'] = True  # Store login status in session
-            return redirect(url_for('admin_panel'))
-        else:
-            return render_template('admin_login.html', error="Invalid Username or Password!")
-
-    return render_template('admin_login.html')
-
-# Route: Admin Panel (Protected)
 @app.route('/')
 def admin_panel():
-    if 'admin_logged_in' not in session or not session['admin_logged_in']:  
-        flash("Unauthorized! Please log in.", "warning")
-        return redirect(url_for('admin_login'))  # Redirect to login if not logged in
-
     return render_template('admin_panel.html')
 
-
-# Route: Logout
-@app.route('/logout')
-def logout():
-    session.pop('admin_logged_in', None)  # Remove login session
-    return redirect(url_for('admin_login'))
-
-# Route: Add Hospital (Admin Only)
 @app.route('/add_hospital', methods=['POST'])
 def add_hospital():
-    if 'admin_logged_in' not in session or not session['admin_logged_in']:
-        return jsonify({"message": "Unauthorized access"}), 403
-
     name = request.form['name']
     contact = request.form['contact']
     address = request.form['address']
@@ -67,12 +29,8 @@ def add_hospital():
     db.commit()
     return jsonify({"message": "Hospital added successfully!"})
 
-# Route: Add Blood Bank (Admin Only)
 @app.route('/add_bloodbank', methods=['POST'])
 def add_bloodbank():
-    if 'admin_logged_in' not in session or not session['admin_logged_in']:
-        return jsonify({"message": "Unauthorized access"}), 403
-
     name = request.form['name']
     contact = request.form['contact']
     address = request.form['address']
@@ -83,12 +41,8 @@ def add_bloodbank():
     db.commit()
     return jsonify({"message": "Blood Bank added successfully!"})
 
-# Route: Add Event (Admin Only)
 @app.route('/add_event', methods=['POST'])
 def add_event():
-    if 'admin_logged_in' not in session or not session['admin_logged_in']:
-        return jsonify({"message": "Unauthorized access"}), 403
-
     name = request.form['name']
     event_date = request.form['event_date']
     location = request.form['location']
@@ -98,6 +52,7 @@ def add_event():
                    (name, event_date, location, description))
     db.commit()
     return jsonify({"message": "Event added successfully!"})
+
 
 @app.route('/get_hospitals', methods=['GET'])
 def get_hospitals():
@@ -116,6 +71,16 @@ def get_events():
     cursor.execute("SELECT name, event_date, location, description FROM events")
     events = cursor.fetchall()
     return jsonify(events)
+'''@app.route('/get_donors', methods=['GET'])
+def get_donors():
+    cursor = db.cursor(dictionary=True)  # Get column names
+    cursor.execute("SELECT donor_id, full_name, dob, blood_group, gender, email, phone, current_location, available_location FROM donors")
+    donors = cursor.fetchall()
+    cursor.close()  
+    return jsonify(donors)'''
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

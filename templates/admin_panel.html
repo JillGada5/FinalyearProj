@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Admin Panel </title>
+    <title>Admin Panel</title>
     <style>
         * {
             margin: 0;
@@ -62,7 +62,7 @@
         }
 
         .main-content {
-    margin-left: 150px; /* Space for sidebar */
+    margin-left: 270px; /* Space for sidebar */
     margin-top: 100px; /* Ensure content starts below header */
     padding: 20px;
     width: calc(100% - 270px);
@@ -78,7 +78,7 @@
 
         .container {
             background-color: white;
-            padding: 30px;
+            padding: 40px;
             border-radius: 10px;
             box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
             width: 70vw;
@@ -167,16 +167,18 @@ header {
 
 
 header .logo img {
-    position: absolute;
-    left: 20px; /* Keeps the logo on the left */
-    top: 10%;
-    
+    position:absolute;
+    left:20px;
+    top:10px;  /* Keep original aspect ratio */
 }
 
 
 header .logo img {
     max-width: 150px;
     height: px;
+    display: block;
+    visibility: visible;
+
     /*animation: bounce 2s infinite alternate;*/
 }
 
@@ -201,27 +203,6 @@ nav ul li a {
 
 nav ul li a:hover {
     color: #ffd1d1; /* Light hover color */
-}
-
-.admin-heading {
-    text-align: center;
-    font-size: 32px;
-    font-weight: bold;
-    color: white;
-    background-color: #8B0000; /* Match header background */
-    padding: 5px 20px; /* Reduce padding */
-    margin: 0;
-    width: 100%;
-    position: relative; /* Ensures it stays below the header */
-    margin-top: 0px; /* Ensures it's below the header */
-}
-
-
-.heading-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 90px; /* Adjust this value to move heading below header */
 }
 
 table {
@@ -250,23 +231,24 @@ tr:hover {
 }
 
 
+
+
+
     </style>
 </head>
 <body>
 
     <header>
         <div class="logo">
-            <a href="{{ url_for('admin_panel') }}"> <!-- Link to Admin Panel -->
-                <img src="logo3.jpg"  width="120" height="80">
-
+            <a href="{{ url_for('admin_panel') }}">
+                <img src="static/logo3.jpg"  width="120" height="80">
             </a>
-        </div> 
-        <h1>Admin Panel</h1>      
+        </div>
+        <h1>Admin Panel</h1>
     </header>
-
-    <h1 class="admin-heading">Admin Panel</h1>
     
-  
+   
+
     <div class="sidebar">
         <button onclick="toggleDropdown('addDropdown')">Add &#9660;</button><br>
         <div id="addDropdown" class="dropdown">
@@ -286,8 +268,9 @@ tr:hover {
     </div>
 
     <div class="main-content">
-        <div id="dynamicContent" class="container"></div>
-    </div>
+           
+            <div id="dynamicContent" class="container"></div>
+        </div>
         
     </div>
 
@@ -369,11 +352,32 @@ tr:hover {
             document.getElementById("dynamicContent").innerHTML = forms[formId] || "<h2>Form not found</h2>";
         }
 
+        function submitForm(formId, endpoint) {
+    let form = document.getElementById(formId);
+    let formData = new FormData(form);
+
+    fetch(endpoint, {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message); // Show success message
+        form.reset(); // Clear form after submission
+    })
+    .catch(error => console.error("Error:", error));
+}
+
+
+
+
         function viewSection(sectionId) {
     let apiEndpoints = {
         hospitals: "/get_hospitals",
         bloodBanks: "/get_bloodbanks",
-        events: "/get_events"
+        events: "/get_events",
+        donors: "/get_donors"
+
     };
 
     if (!apiEndpoints[sectionId]) {
