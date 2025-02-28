@@ -59,5 +59,6 @@ def submit():
     # If the request method is not POST, return an error
     return jsonify({'error': 'Invalid request method.'}), 400
 
+
 if __name__ == '__main__':
     app.run(debug=True)

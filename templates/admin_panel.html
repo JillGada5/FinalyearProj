@@ -275,11 +275,18 @@ tr:hover {
     </div>
 
     <script>
+        
         function toggleDropdown(id) {
             var dropdown = document.getElementById(id);
-            dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+            if (dropdown.style.display === "block") {
+                dropdown.style.display = "none";
+            } else {
+                // Hide all dropdowns before showing the selected one
+                document.querySelectorAll('.dropdown').forEach(d => d.style.display = "none");
+                dropdown.style.display = "block";
+            }
         }
-
+    
         function showForm(formId) {
             let forms = {
                 addHospitalForm: `
@@ -351,69 +358,73 @@ tr:hover {
             };
             document.getElementById("dynamicContent").innerHTML = forms[formId] || "<h2>Form not found</h2>";
         }
-
+    
         function submitForm(formId, endpoint) {
-    let form = document.getElementById(formId);
-    let formData = new FormData(form);
-
-    fetch(endpoint, {
-        method: "POST",
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        alert(data.message); // Show success message
-        form.reset(); // Clear form after submission
-    })
-    .catch(error => console.error("Error:", error));
-}
-
-
-
-
+            let form = document.getElementById(formId);
+            let formData = new FormData(form);
+    
+            fetch(endpoint, {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                form.reset();
+            })
+            .catch(error => console.error("Error:", error));
+        }
+    
         function viewSection(sectionId) {
-    let apiEndpoints = {
-        hospitals: "/get_hospitals",
-        bloodBanks: "/get_bloodbanks",
-        events: "/get_events",
-        donors: "/get_donors"
-
-    };
-
-    if (!apiEndpoints[sectionId]) {
-        document.getElementById("dynamicContent").innerHTML = "<h2>Section not found</h2>";
-        return;
-    }
-
-    fetch(apiEndpoints[sectionId])
-        .then(response => response.json())
-        .then(data => {
-            let table = `<h2>${sectionId.replace(/([A-Z])/g, ' $1').trim()} List</h2>
-                         <table border="1" cellspacing="0" cellpadding="10">
-                             <thead>
-                                 <tr>`;
-            if (sectionId === "hospitals" || sectionId === "bloodBanks") {
-                table += `<th>Name</th><th>Contact</th><th>Address</th><th>Location</th>`;
-            } else if (sectionId === "events") {
-                table += `<th>Name</th><th>Date</th><th>Location</th><th>Description</th>`;
+            let apiEndpoints = {
+                bloodRequests: "/get_blood_requests",
+                donors: "/get_donors",
+                requestStatus: "/get_request_status",
+                hospitals: "/get_hospitals",
+                events: "/get_events",
+                bloodBanks: "/get_bloodbanks"
+            };
+    
+            if (!apiEndpoints[sectionId]) {
+                document.getElementById("dynamicContent").innerHTML = "<h2>Section not found</h2>";
+                console.error("Invalid sectionId:", sectionId);
+                return;
             }
-            table += `</tr></thead><tbody>`;
-
-            data.forEach(row => {
-                table += "<tr>";
-                row.forEach(col => {
-                    table += `<td>${col}</td>`;
-                });
-                table += "</tr>";
-            });
-
-            table += "</tbody></table>";
-            document.getElementById("dynamicContent").innerHTML = table;
-        })
-        .catch(error => console.error("Error fetching data:", error));
-}
-
+    
+            fetch(apiEndpoints[sectionId])
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.length) {
+                        document.getElementById("dynamicContent").innerHTML = "<h2>No records found</h2>";
+                        return;
+                    }
+    
+                    let table = `<h2>${sectionId.replace(/([A-Z])/g, ' $1').trim()} List</h2>
+                                 <table border="1">
+                                     <thead>
+                                         <tr>`;
+                    
+                    Object.keys(data[0]).forEach(key => {
+                        table += <th>${key.replace("_", " ").toUpperCase()}</th>;
+                    });
+    
+                    table += '</tr></thead><tbody>';
+    
+                    data.forEach(row => {
+                        table += "<tr>";
+                        Object.values(row).forEach(col => {
+                            table += <td>${col}</td>;
+                        });
+                        table += "</tr>";
+                    });
+    
+                    table += '</tbody></table>';
+                    document.getElementById("dynamicContent").innerHTML = table;
+                })
+                .catch(error => console.error("Error fetching data:", error));
+        }
     </script>
+    
 
 </body>
 </html>
