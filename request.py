@@ -21,36 +21,54 @@ def get_current_max_request_id():
     cursor.close()
     return max_id
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])  # Allow both GET and POST
 def request_page():
     # Get the current maximum request_id and increment it
     current_max_request_id = get_current_max_request_id()
     request_id = current_max_request_id + 1  # Increment the request_id
-    return render_template('request.html', request_id=request_id)
+    
+    donors = []
+    if request.method == 'POST':
+        blood_group = request.form.get('blood_group')
+
+        if blood_group:
+            cursor = mysql.connection.cursor()
+            cursor.execute("SELECT full_name, email, blood_group FROM donors WHERE TRIM(blood_group) = %s", (blood_group.strip(),))
+            donors = cursor.fetchall()  # Fetch matching donors
+            cursor.close()
+
+    return render_template('request1.html', request_id=request_id, donors=donors)
 
 @app.route('/submit', methods=['POST'])
 def submit():
     if request.method == 'POST':
         # Get form data
         patient_name = request.form['patient_name']
-        email = request.form['email']
         phone = request.form['phone']
         blood_group = request.form['bloodgroup']
         quantity = request.form['quantity']
+        email = request.form['email']
         location = request.form['location']
         address = request.form['address']
 
         cursor = mysql.connection.cursor()
-        cursor.execute('''INSERT INTO request (patient_name,email, phone, blood_group, quantity, location, address) 
-                  VALUES (%s,%s, %s, %s, %s, %s, %s)''', 
-               (patient_name,email, phone, blood_group, quantity, location, address))
+        cursor.execute('''INSERT INTO request (patient_name, phone, blood_group,email, quantity, location, address) 
+                  VALUES (%s, %s, %s, %s,%s, %s, %s)''', 
+               (patient_name, phone, blood_group,email, quantity, location, address))
         mysql.connection.commit()
         request_id = cursor.lastrowid
+        # Fetch matching donors based on blood group
+        cursor.execute("SELECT donor_id, full_name, email, blood_group FROM donors WHERE TRIM(blood_group) = %s", (blood_group.strip(),))
+        donors = cursor.fetchall()
         cursor.close()
          
-        return redirect(url_for('request_page', request_id=request_id)) 
-    
+        return render_template('request1.html', request_id=request_id, donors=donors) 
+
     return jsonify({'error': 'Invalid request method.'}), 400
+
 
 if __name__ == '__main__':
     app.run(debug=True)
+        
+        
+
